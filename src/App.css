@@ -1,0 +1,37 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    text-align: center;
+    padding: 0 15%;
+}
+
+.table {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0 20px 0;
+}
+
+.topBar {
+    display: flex;
+    justify-content: space-around;
+    margin: 20px 0 20px 0;
+    padding: 20px 10px;
+
+    background-color: #F0F0F0;
+    border-radius: 5px;
+}
+
+.spacer {
+    flex-grow: 1;
+}
+
+button,
+a {
+    margin: 0 10px !important;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
