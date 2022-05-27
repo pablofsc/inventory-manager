@@ -14,9 +14,9 @@ const TopBar = () => {
             <div className='spacer' />
 
             <ButtonGroup variant="contained">
-                <Button href='/' className='navButton'>ESTOQUE</Button>
-                <Button href='/clients' className='navButton'>CLIENTES</Button>
-                <Button href='/sales' className='navButton'>VENDAS</Button>
+                <Button href='/inventory-manager/' className='navButton'>ESTOQUE</Button>
+                <Button href='/inventory-manager/clients' className='navButton'>CLIENTES</Button>
+                <Button href='/inventory-manager/sales' className='navButton'>VENDAS</Button>
             </ButtonGroup>
 
             <div className='spacer' />
@@ -24,7 +24,7 @@ const TopBar = () => {
             <Button
                 variant="contained"
                 color="secondary"
-                href='/newbatch'
+                href='/inventory-manager/newbatch'
                 startIcon={<InventoryIcon />}
             >
                 REGISTRAR ENTRADA
@@ -33,7 +33,7 @@ const TopBar = () => {
             <Button
                 variant="contained"
                 color="primary"
-                href='/newsale'
+                href='/inventory-manager/newsale'
                 startIcon={<AttachMoneyIcon />}
             >
                 REGISTRAR VENDA

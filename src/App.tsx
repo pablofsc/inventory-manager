@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import './App.css'
 
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 
 import ListOfInventory from './components/ListOfInventory'
 import TopBar from './components/TopBar';
