@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import './App.css'
 
-import { HashRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import ListOfInventory from './components/ListOfInventory'
 import TopBar from './components/TopBar';
@@ -22,42 +22,42 @@ const App = () => {
                 <TopBar />
             </nav>
             <Routes>
-                <Route path='/' element={
+                <Route path='/inventory-manager' element={
                     <ListOfInventory />
                 }>
                 </Route>
 
-                <Route path='/newclient' element={
+                <Route path='/inventory-manager/newclient' element={
                     <NewClient />
                 }>
                 </Route>
 
-                <Route path='/newproduct' element={
+                <Route path='/inventory-manager/newproduct' element={
                     <NewProduct />
                 }>
                 </Route>
 
-                <Route path='/editclient' element={
+                <Route path='/inventory-manager/editclient' element={
                     <EditClient />
                 }>
                 </Route>
 
-                <Route path='/editproduct' element={
+                <Route path='/inventory-manager/editproduct' element={
                     <EditProduct />
                 }>
                 </Route>
 
-                <Route path='/newsale' element={
+                <Route path='/inventory-manager/newsale' element={
                     <NewSale />
                 }>
                 </Route>
 
-                <Route path='/sales' element={
+                <Route path='/inventory-manager/sales' element={
                     <ListOfSales />
                 }>
                 </Route>
 
-                <Route path='/clients' element={
+                <Route path='/inventory-manager/clients' element={
                     <ListOfClients />
                 }>
                 </Route>
