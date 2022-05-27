@@ -3,12 +3,15 @@ import './App.css'
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-import Inventory from './components/Inventory'
+import ListOfInventory from './components/ListOfInventory'
 import TopBar from './components/TopBar';
 import NewClient from './components/NewClient';
 import NewProduct from './components/NewProduct';
 import EditClient from './components/EditClient';
 import EditProduct from './components/EditProduct';
+import NewSale from './components/NewSale';
+import ListOfSales from './components/ListOfSales';
+import ListOfClients from './components/ListOfClients';
 
 const App = () => {
     const [count, setCount] = useState(0)
@@ -20,9 +23,7 @@ const App = () => {
             </nav>
             <Routes>
                 <Route path='/' element={
-                    <div className='table'>
-                        <Inventory />
-                    </div>
+                    <ListOfInventory />
                 }>
                 </Route>
 
@@ -43,6 +44,21 @@ const App = () => {
 
                 <Route path='/editproduct' element={
                     <EditProduct />
+                }>
+                </Route>
+
+                <Route path='/newsale' element={
+                    <NewSale />
+                }>
+                </Route>
+
+                <Route path='/sales' element={
+                    <ListOfSales />
+                }>
+                </Route>
+
+                <Route path='/clients' element={
+                    <ListOfClients />
                 }>
                 </Route>
             </Routes>

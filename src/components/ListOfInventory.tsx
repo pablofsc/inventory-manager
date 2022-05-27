@@ -1,4 +1,4 @@
-import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid'
+import { DataGrid, GridColDef } from '@mui/x-data-grid'
 import { useState, useEffect } from 'react'
 
 const columns: GridColDef[] = [
@@ -19,7 +19,7 @@ const columns: GridColDef[] = [
     }
 ];
 
-const Inventory = () => {
+const ListOfInventory = () => {
     const [inventory, set] = useState([])
 
     useEffect(() => {
@@ -32,21 +32,24 @@ const Inventory = () => {
                     set(res)
                 })
                 .catch(e => console.log(e))
-        }, 1000)
+        }, 500)
 
         return () => clearInterval(id);
     })
 
     return (
         <div style={{ height: 600, width: '100%' }}>
+            <h1>
+                Estoque
+            </h1>
             <DataGrid
                 rows={inventory}
                 columns={columns}
-                pageSize={5}
-                rowsPerPageOptions={[5]}
+                pageSize={8}
+                rowsPerPageOptions={[8]}
             />
         </div>
     )
 }
 
-export default Inventory
+export default ListOfInventory

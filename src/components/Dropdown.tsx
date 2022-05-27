@@ -77,18 +77,15 @@ export default function Dropdown(props: properties) {
     return (
         <div>
             <Button
-                id="demo-customized-button"
                 variant="contained"
                 onClick={handleClick}
                 endIcon={<KeyboardArrowDownIcon />}
+                startIcon={props.isEdit ? <EditIcon /> : <AddIcon />}
             >
-                {props.isEdit ? <EditIcon /> : <AddIcon />}
-                &nbsp;
                 {props.text}
             </Button>
 
             <StyledMenu
-                id="demo-customized-menu"
                 anchorEl={anchorEl}
                 open={open}
                 onClose={handleClose}

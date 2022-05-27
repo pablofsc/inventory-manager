@@ -1,5 +1,6 @@
 import Button from '@mui/material/Button';
 import Dropdown from './Dropdown';
+import ButtonGroup from '@mui/material/ButtonGroup';
 
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import InventoryIcon from '@mui/icons-material/Inventory';
@@ -12,23 +13,29 @@ const TopBar = () => {
 
             <div className='spacer' />
 
+            <ButtonGroup variant="contained">
+                <Button href='/' className='navButton'>ESTOQUE</Button>
+                <Button href='/clients' className='navButton'>CLIENTES</Button>
+                <Button href='/sales' className='navButton'>VENDAS</Button>
+            </ButtonGroup>
+
+            <div className='spacer' />
+
             <Button
                 variant="contained"
                 color="secondary"
-                href='/entrada'
+                href='/newbatch'
+                startIcon={<InventoryIcon />}
             >
-                <InventoryIcon />
-                &nbsp;
                 REGISTRAR ENTRADA
             </Button>
 
             <Button
                 variant="contained"
                 color="primary"
-                href='/venda'
+                href='/newsale'
+                startIcon={<AttachMoneyIcon />}
             >
-                <AttachMoneyIcon />
-                &nbsp;
                 REGISTRAR VENDA
             </Button>
         </div>
