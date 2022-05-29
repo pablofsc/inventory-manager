@@ -5,7 +5,7 @@ import { ReactElement } from 'react';
 const GoBack = (): ReactElement => {
     return (
         <>
-            <a href='/'>
+            <a href='/inventory-manager/'>
                 <Button
                     variant="contained"
                     startIcon={<ArrowBackIcon />}
