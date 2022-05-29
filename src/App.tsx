@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import './App.css'
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -12,10 +11,10 @@ import EditProduct from './components/EditProduct';
 import NewSale from './components/NewSale';
 import ListOfSales from './components/ListOfSales';
 import ListOfClients from './components/ListOfClients';
+import NewBatch from './components/NewBatch';
+import { ReactElement } from 'react';
 
-const App = () => {
-    const [count, setCount] = useState(0)
-
+const App = (): ReactElement => {
     return (
         <Router>
             <nav>
@@ -44,6 +43,11 @@ const App = () => {
 
                 <Route path='/inventory-manager/editproduct' element={
                     <EditProduct />
+                }>
+                </Route>
+
+                <Route path='/inventory-manager/newbatch' element={
+                    <NewBatch />
                 }>
                 </Route>
 

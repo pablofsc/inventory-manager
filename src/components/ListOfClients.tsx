@@ -1,5 +1,5 @@
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, ReactElement } from 'react'
 
 const columns: GridColDef[] = [
     {
@@ -9,22 +9,18 @@ const columns: GridColDef[] = [
     },
 ];
 
-const ListOfClients = () => {
+const ListOfClients = (): ReactElement => {
     const [inventory, set] = useState([])
 
     useEffect(() => {
-        const id = setInterval(() => {
-            fetch('https://pablofsc-inventory-db.herokuapp.com/clients', {
-                method: 'GET'
+        fetch('https://pablofsc-inventory-db.herokuapp.com/clients', {
+            method: 'GET'
+        })
+            .then(res => res.json())
+            .then(res => {
+                set(res)
             })
-                .then(res => res.json())
-                .then(res => {
-                    set(res)
-                })
-                .catch(e => console.log(e))
-        }, 500)
-
-        return () => clearInterval(id);
+            .catch(e => console.log(e))
     })
 
     return (

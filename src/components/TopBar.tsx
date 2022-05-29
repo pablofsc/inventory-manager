@@ -4,8 +4,9 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import InventoryIcon from '@mui/icons-material/Inventory';
+import { ReactElement } from 'react';
 
-const TopBar = () => {
+const TopBar = (): ReactElement => {
     return (
         <div className='topBar'>
             <Dropdown text='CADASTRAR' prepend='new' isEdit={false} />

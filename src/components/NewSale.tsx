@@ -1,12 +1,13 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, ReactElement } from 'react'
 import { Select, MenuItem, SelectChangeEvent, InputLabel, FormControl } from "@mui/material"
 
 import TextField from '@mui/material/TextField';
 import { LoadingButton } from '@mui/lab';
 import { InputAdornment } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
+import GoBack from './GoBack';
 
-const NewSale = () => {
+const NewSale = (): ReactElement => {
     const [loading, setLoading] = useState(false)
 
     // CLIENTES
@@ -102,7 +103,8 @@ const NewSale = () => {
                 flexDirection: 'column',
                 justifyContent: 'space-between',
                 alignItems: 'center',
-                height: '300px'
+                height: '300px',
+                marginBottom: '20px'
             }}>
                 <FormControl variant="filled" style={{ width: '30%' }}>
                     <InputLabel id="selectClient">Selecionar cliente</InputLabel>
@@ -139,6 +141,7 @@ const NewSale = () => {
                 <div style={{ width: '30%', display: 'flex', justifyContent: 'space-between' }}>
                     <TextField
                         id="price"
+                        type='number'
                         label="Preço da venda"
                         variant="filled"
                         placeholder={suggestedPrice}
@@ -148,6 +151,7 @@ const NewSale = () => {
 
                     <TextField
                         id="quantity"
+                        type='number'
                         label="Quantidade"
                         variant="filled"
                         InputProps={{ endAdornment: <InputAdornment position="end">unid.</InputAdornment>, }}
@@ -165,6 +169,8 @@ const NewSale = () => {
                     REGISTRAR VENDA
                 </LoadingButton>
             </div>
+
+            <GoBack />
         </div >
     )
 }

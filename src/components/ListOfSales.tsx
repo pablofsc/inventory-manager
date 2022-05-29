@@ -1,15 +1,15 @@
 import { Inventory } from '@mui/icons-material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, ReactElement } from 'react'
 
 const columns: GridColDef[] = [
     {
-        field: 'product',
+        field: 'product_name',
         headerName: 'Produto',
         flex: 1
     },
     {
-        field: 'client',
+        field: 'client_name',
         headerName: 'Cliente',
         flex: 1
     },
@@ -22,15 +22,10 @@ const columns: GridColDef[] = [
         field: 'price',
         headerName: 'Preço',
         width: 150
-    },
-    {
-        field: 'total',
-        headerName: 'Total',
-        width: 150
     }
 ];
 
-const ListOfSales = () => {
+const ListOfSales = (): ReactElement => {
     const [sales, setSales] = useState([])
     const [clients, setClients] = useState([])
     const [products, setProducts] = useState([])
@@ -76,9 +71,6 @@ const ListOfSales = () => {
             try {
                 list[i]['product'] = products.find((x: any) => x.id === sales[i]['product_id'])!['name']
                 list[i]['client'] = clients.find((x: any) => x.id === sales[i]['client_id'])!['name']
-
-                const total = sales[i]['quantity'] * parseFloat((sales[i]['price'] as String).substring(1).replaceAll(',', ''))
-                list[i]['total'] = ('$' + total) as never
             } catch (e) {
                 console.log(e)
             }

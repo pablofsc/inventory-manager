@@ -62,7 +62,7 @@ interface properties {
     isEdit: boolean
 }
 
-export default function Dropdown(props: properties) {
+export default function Dropdown(props: properties): React.ReactElement {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
 

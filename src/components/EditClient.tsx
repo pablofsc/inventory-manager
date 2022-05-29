@@ -4,6 +4,7 @@ import { TextField, Select, MenuItem, SelectChangeEvent, InputLabel, FormControl
 import { LoadingButton } from '@mui/lab'
 import SaveIcon from '@mui/icons-material/Save'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
+import GoBack from './GoBack'
 
 const EditClient = (): ReactElement => {
     const [sendingToDatabase, setSending] = useState(false)
@@ -147,6 +148,8 @@ const EditClient = (): ReactElement => {
                 <p>
                     {sentToDatabase ? 'Salvo com sucesso.' : <></>}
                 </p>
+
+                <GoBack />
             </div >
         )
     }
@@ -159,6 +162,8 @@ const EditClient = (): ReactElement => {
                 <p>
                     Nenhum cliente cadastrado.
                 </p>
+
+                <GoBack />
             </div>
         )
     }
