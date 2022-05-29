@@ -42,8 +42,6 @@ const NewSale = () => {
 
         let price: String = productList[productList.findIndex((x: any) => x.id == event.target.value)]['default_price'];
         setPrice(price.substring(1))
-
-        console.log(event.target.value as string)
     };
 
     useEffect(() => {
@@ -143,7 +141,7 @@ const NewSale = () => {
                         id="price"
                         label="Preço da venda"
                         variant="filled"
-                        value={suggestedPrice}
+                        placeholder={suggestedPrice}
                         InputProps={{ startAdornment: <InputAdornment position="start">R$</InputAdornment> }}
                         style={{ width: '45%' }}
                     />

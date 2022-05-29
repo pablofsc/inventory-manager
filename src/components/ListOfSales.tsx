@@ -77,7 +77,7 @@ const ListOfSales = () => {
                 list[i]['product'] = products.find((x: any) => x.id === sales[i]['product_id'])!['name']
                 list[i]['client'] = clients.find((x: any) => x.id === sales[i]['client_id'])!['name']
 
-                let total = sales[i]['quantity'] * parseFloat((sales[i]['price'] as String).substring(1))
+                const total = sales[i]['quantity'] * parseFloat((sales[i]['price'] as String).substring(1).replaceAll(',', ''))
                 list[i]['total'] = ('$' + total) as never
             } catch (e) {
                 console.log(e)
