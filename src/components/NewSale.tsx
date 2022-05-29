@@ -9,6 +9,7 @@ import GoBack from './GoBack';
 
 const NewSale = (): ReactElement => {
     const [loading, setLoading] = useState(false)
+    const [sent, setSent] = useState(false)
 
     // CLIENTES
     const [selectedClient, setSC] = useState('')
@@ -43,6 +44,7 @@ const NewSale = (): ReactElement => {
 
         let price: String = productList[productList.findIndex((x: any) => x.id == event.target.value)]['default_price'];
         setPrice(price.substring(1))
+        setSent(false)
     };
 
     useEffect(() => {
@@ -85,6 +87,7 @@ const NewSale = (): ReactElement => {
                         console.log('sent new sale to database')
                     }
                     setLoading(false)
+                    setSent(true)
                 })
                 .catch(e => console.log(e))
         }
@@ -169,6 +172,10 @@ const NewSale = (): ReactElement => {
                     REGISTRAR VENDA
                 </LoadingButton>
             </div>
+
+            <p>
+                {sent ? 'Venda realizada.' : <></>}
+            </p>
 
             <GoBack />
         </div >
