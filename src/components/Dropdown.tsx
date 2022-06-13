@@ -1,13 +1,10 @@
-import * as React from 'react';
+import { useState, ReactElement, MouseEvent } from 'react';
 import { styled, alpha } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import Menu, { MenuProps } from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import Divider from '@mui/material/Divider';
 
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-
-import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import AddIcon from '@mui/icons-material/Add';
@@ -33,13 +30,9 @@ const StyledMenu = styled((props: MenuProps) => (
         borderRadius: 6,
         marginTop: theme.spacing(1),
         minWidth: 180,
-        color:
-            theme.palette.mode === 'light' ? 'rgb(55, 65, 81)' : theme.palette.grey[300],
-        boxShadow:
-            'rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px',
-        '& .MuiMenu-list': {
-            padding: '4px 0',
-        },
+        color: theme.palette.mode === 'light' ? 'rgb(55, 65, 81)' : theme.palette.grey[300],
+        boxShadow: 'rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px',
+        '& .MuiMenu-list': { padding: '4px 0', },
         '& .MuiMenuItem-root': {
             '& .MuiSvgIcon-root': {
                 fontSize: 18,
@@ -56,28 +49,23 @@ const StyledMenu = styled((props: MenuProps) => (
     },
 }));
 
-interface properties {
+interface Properties {
     text: String,
     prepend: String,
-    isEdit: boolean
+    isEdit: boolean;
 }
 
-export default function Dropdown(props: properties): React.ReactElement {
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+export default function Dropdown(props: Properties): ReactElement {
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
     const open = Boolean(anchorEl);
-
-    const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorEl(event.currentTarget);
-    };
-
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
+    const handleClick = (event: MouseEvent<HTMLElement>) => setAnchorEl(event.currentTarget);
+    const handleClose = () => setAnchorEl(null);
 
     return (
         <div>
             <Button
-                variant="contained"
+                variant='contained'
                 onClick={handleClick}
                 endIcon={<KeyboardArrowDownIcon />}
                 startIcon={props.isEdit ? <EditIcon /> : <AddIcon />}
@@ -85,24 +73,16 @@ export default function Dropdown(props: properties): React.ReactElement {
                 {props.text}
             </Button>
 
-            <StyledMenu
-                anchorEl={anchorEl}
-                open={open}
-                onClose={handleClose}
-            >
-                <a href={props.prepend + 'client'}>
-                    <MenuItem onClick={handleClose} disableRipple>
-                        {props.isEdit ? <PersonIcon /> : <PersonAddIcon />}
-                        Cliente
-                    </MenuItem>
-                </a>
+            <StyledMenu anchorEl={anchorEl} open={open} onClose={handleClose} >
+                <MenuItem onClick={handleClose} component='a' href={props.prepend + 'customer'}>
+                    {props.isEdit ? <PersonIcon /> : <PersonAddIcon />}
+                    Cliente
+                </MenuItem>
 
-                <a href={props.prepend + 'product'}>
-                    <MenuItem onClick={handleClose} disableRipple>
-                        {props.isEdit ? <ShoppingCartIcon /> : <AddShoppingCartIcon />}
-                        Produto
-                    </MenuItem>
-                </a>
+                <MenuItem onClick={handleClose} component='a' href={props.prepend + 'product'}>
+                    {props.isEdit ? <ShoppingCartIcon /> : <AddShoppingCartIcon />}
+                    Produto
+                </MenuItem>
             </StyledMenu>
         </div >
     );
