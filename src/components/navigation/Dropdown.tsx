@@ -31,8 +31,9 @@ const StyledMenu = styled((props: MenuProps) => (
         marginTop: theme.spacing(1),
         minWidth: 180,
         color: theme.palette.mode === 'light' ? 'rgb(55, 65, 81)' : theme.palette.grey[300],
-        boxShadow: 'rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px',
-        '& .MuiMenu-list': { padding: '4px 0', },
+        boxShadow:
+            'rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px',
+        '& .MuiMenu-list': { padding: '4px 0' },
         '& .MuiMenuItem-root': {
             '& .MuiSvgIcon-root': {
                 fontSize: 18,
@@ -40,18 +41,15 @@ const StyledMenu = styled((props: MenuProps) => (
                 marginRight: theme.spacing(1.5),
             },
             '&:active': {
-                backgroundColor: alpha(
-                    theme.palette.primary.main,
-                    theme.palette.action.selectedOpacity,
-                ),
+                backgroundColor: alpha(theme.palette.primary.main, theme.palette.action.selectedOpacity),
             },
         },
     },
 }));
 
 interface Properties {
-    text: String,
-    prepend: String,
+    text: String;
+    prepend: String;
     isEdit: boolean;
 }
 
@@ -70,10 +68,10 @@ export default function Dropdown(props: Properties): ReactElement {
                 endIcon={<KeyboardArrowDownIcon />}
                 startIcon={props.isEdit ? <EditIcon /> : <AddIcon />}
             >
-                {props.text}
+                <div className='hideOnSmallScreens'>{props.text}</div>
             </Button>
 
-            <StyledMenu anchorEl={anchorEl} open={open} onClose={handleClose} >
+            <StyledMenu anchorEl={anchorEl} open={open} onClose={handleClose}>
                 <MenuItem onClick={handleClose} component='a' href={props.prepend + 'customer'}>
                     {props.isEdit ? <PersonIcon /> : <PersonAddIcon />}
                     Cliente
@@ -84,6 +82,6 @@ export default function Dropdown(props: Properties): ReactElement {
                     Produto
                 </MenuItem>
             </StyledMenu>
-        </div >
+        </div>
     );
 }

@@ -6,7 +6,7 @@ import { getObjectFromArray, complexSituation } from '../../utilities/utils';
 import { deleteFromDatabase, getFromDatabase, updateDatabase } from '../../utilities/database';
 import { customerObject, databaseResponse } from '../../utilities/interfaces';
 
-import GoBack from '../GoBack';
+import GoBack from '../navigation/GoBack';
 import NameInput from '../inputs/NameInput';
 import ButtonInput from '../inputs/ButtonInput';
 import SelectDropdownInput from '../inputs/SelectDropdownInput';
@@ -21,7 +21,7 @@ const EditCustomer = (): ReactElement => {
         getFromDatabase('clients').then((result: Array<customerObject>) => setCustomerList(result));
     }, [status]);
 
-    const handleClientSelection = (event: SelectChangeEvent<string>): void => {
+    const handleCustomerSelection = (event: SelectChangeEvent<string>): void => {
         setSelectedID(event.target.value);
         setStatus(complexSituation.picked);
     };
@@ -44,7 +44,7 @@ const EditCustomer = (): ReactElement => {
 
         const serverResponse = await updateDatabase('updateclient', {
             id: selectedID,
-            name: newName
+            name: newName,
         });
         checkServerResponse(serverResponse);
     };
@@ -57,11 +57,15 @@ const EditCustomer = (): ReactElement => {
     };
 
     const checkServerResponse = (response: databaseResponse): void => {
-        response && response.results === 'success' ? setStatus(complexSituation.sent) : setStatus(complexSituation.error);
+        response && response.results === 'success'
+            ? setStatus(complexSituation.sent)
+            : setStatus(complexSituation.error);
     };
 
-    const inputPlaceholder: string = (status >= complexSituation.picked && status != complexSituation.sent && customerList.length > 0) ?
-        getObjectFromArray(customerList, 'id', selectedID).name : '';
+    const inputPlaceholder: string =
+        status >= complexSituation.picked && status != complexSituation.sent && customerList.length > 0
+            ? getObjectFromArray(customerList, 'id', selectedID).name
+            : '';
 
     const loading: boolean = !!(status === complexSituation.sending);
 
@@ -74,7 +78,7 @@ const EditCustomer = (): ReactElement => {
                 <div className='editScreen'>
                     <SelectDropdownInput
                         value={selectedID}
-                        action={handleClientSelection}
+                        action={handleCustomerSelection}
                         list={customerList}
                         label='Selecionar cliente'
                     />
@@ -107,10 +111,9 @@ const EditCustomer = (): ReactElement => {
                 <p> {status === complexSituation.error ? 'Houve um erro e as alterações não foram salvas.' : <></>} </p>
 
                 <GoBack />
-            </div >
+            </div>
         );
-    }
-    else {
+    } else {
         return (
             <div>
                 <h1> Editar cadastro de cliente </h1>

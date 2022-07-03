@@ -4,7 +4,7 @@ import { DOM, simpleSituation } from '../../utilities/utils';
 import { addToDatabase } from '../../utilities/database';
 import { databaseResponse, productObject } from '../../utilities/interfaces';
 
-import GoBack from '../GoBack';
+import GoBack from '../navigation/GoBack';
 import NameInput from '../inputs/NameInput';
 import PriceInput from '../inputs/PriceInput';
 import QuantityInput from '../inputs/QuantityInput';
@@ -25,7 +25,7 @@ const NewProduct = (): ReactElement => {
             id: undefined,
             name: name,
             default_price: price,
-            quantity_in_stock: stock
+            quantity_in_stock: stock,
         });
     };
 
@@ -44,27 +44,13 @@ const NewProduct = (): ReactElement => {
 
     return (
         <div>
-            <h1>
-                Cadastrar novo produto
-            </h1>
+            <h1>Cadastrar novo produto</h1>
             <div className='editScreen'>
-                <NameInput
-                    id='productname'
-                    label='Nome do produto'
-                    action={checkSubmitReadiness}
-                />
+                <NameInput id='productname' label='Nome do produto' action={checkSubmitReadiness} />
 
-                <PriceInput
-                    id='productprice'
-                    label='Preço sugerido'
-                    action={checkSubmitReadiness}
-                />
+                <PriceInput id='productprice' label='Preço sugerido' action={checkSubmitReadiness} />
 
-                <QuantityInput
-                    id='initialstock'
-                    label='Estoque inicial'
-                    action={checkSubmitReadiness}
-                />
+                <QuantityInput id='initialstock' label='Estoque inicial' action={checkSubmitReadiness} />
 
                 <ButtonInput
                     action={sendform}
@@ -77,7 +63,7 @@ const NewProduct = (): ReactElement => {
             <p> {status === simpleSituation.sent ? 'Salvo com sucesso.' : <></>} </p>
 
             <GoBack />
-        </div >
+        </div>
     );
 };
 

@@ -6,7 +6,7 @@ import { DOM, getObjectFromArray, parsePrice, simpleSituation } from '../../util
 import { customerObject, databaseResponse, productObject } from '../../utilities/interfaces';
 import { addToDatabase, getFromDatabase } from '../../utilities/database';
 
-import GoBack from '../GoBack';
+import GoBack from '../navigation/GoBack';
 import ButtonInput from '../inputs/ButtonInput';
 import PriceInput from '../inputs/PriceInput';
 import QuantityInput from '../inputs/QuantityInput';
@@ -78,7 +78,7 @@ const NewSale = (): ReactElement => {
             client: selectedCustomerID,
             quantity: quantitySold,
             price: pricePerUnit,
-            date: (new Date()).toISOString().slice(0, 10)
+            date: new Date().toISOString().slice(0, 10),
         });
 
         checkServerResponse(serverResponse);
@@ -108,18 +108,9 @@ const NewSale = (): ReactElement => {
                 />
 
                 <div className='priceQuantityCouple'>
-                    <PriceInput
-                        id='price'
-                        label='Preço unitário'
-                        action={handleTextInput}
-                    />
+                    <PriceInput id='price' label='Preço unitário' action={handleTextInput} />
 
-                    <QuantityInput
-                        id='quantity'
-                        label='Quantidade'
-                        action={handleTextInput}
-                        shrink={false}
-                    />
+                    <QuantityInput id='quantity' label='Quantidade' action={handleTextInput} shrink={false} />
                 </div>
 
                 <ButtonInput
@@ -133,7 +124,7 @@ const NewSale = (): ReactElement => {
             <p> {status === simpleSituation.sent ? 'Venda realizada.' : <></>} </p>
 
             <GoBack />
-        </div >
+        </div>
     );
 };
 

@@ -6,7 +6,7 @@ import { complexSituation, getObjectFromArray } from '../../utilities/utils';
 import { getFromDatabase, updateDatabase } from '../../utilities/database';
 import { databaseResponse, productObject } from '../../utilities/interfaces';
 
-import GoBack from '../GoBack';
+import GoBack from '../navigation/GoBack';
 import ButtonInput from '../inputs/ButtonInput';
 import QuantityInput from '../inputs/QuantityInput';
 import SelectDropdownInput from '../inputs/SelectDropdownInput';
@@ -38,18 +38,21 @@ const NewStock = (): ReactElement => {
 
         const serverResponse = await updateDatabase('updatestock', {
             id: selectedProductID,
-            quantity: amountToAdd
+            quantity: amountToAdd,
         });
         checkServerResponse(serverResponse);
     };
 
     const checkServerResponse = (response: databaseResponse): void => {
-        response && response.results === 'success' ? setStatus(complexSituation.sent) : setStatus(complexSituation.error);
+        response && response.results === 'success'
+            ? setStatus(complexSituation.sent)
+            : setStatus(complexSituation.error);
     };
 
-    const currentStock = status >= complexSituation.picked
-        ? 'Estoque atual: ' + getObjectFromArray(productList, 'id', selectedProductID).quantity_in_stock
-        : 'Selecione um produto';
+    const currentStock =
+        status >= complexSituation.picked
+            ? 'Estoque atual: ' + getObjectFromArray(productList, 'id', selectedProductID).quantity_in_stock
+            : 'Selecione um produto';
 
     if (productList.length > 0) {
         return (
@@ -85,10 +88,9 @@ const NewStock = (): ReactElement => {
                 <p> {status === complexSituation.sent ? 'Salvo com sucesso.' : <></>} </p>
 
                 <GoBack />
-            </div >
+            </div>
         );
-    }
-    else {
+    } else {
         return (
             <div>
                 <h1> Registrar entrada de estoque </h1>

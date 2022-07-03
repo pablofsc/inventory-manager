@@ -6,7 +6,7 @@ import { getObjectFromArray, DOM, parsePrice, complexSituation } from '../../uti
 import { deleteFromDatabase, getFromDatabase, updateDatabase } from '../../utilities/database';
 import { productObject, databaseResponse } from '../../utilities/interfaces';
 
-import GoBack from '../GoBack';
+import GoBack from '../navigation/GoBack';
 import NameInput from '../inputs/NameInput';
 import ButtonInput from '../inputs/ButtonInput';
 import PriceInput from '../inputs/PriceInput';
@@ -72,7 +72,7 @@ const EditProduct = (): ReactElement => {
             id: selectedID,
             name: newName,
             default_price: newPrice,
-            quantity_in_stock: newQuantity
+            quantity_in_stock: newQuantity,
         });
         checkServerResponse(serverResponse);
         setStatus(complexSituation.picked);
@@ -89,7 +89,9 @@ const EditProduct = (): ReactElement => {
     };
 
     const checkServerResponse = (response: databaseResponse): void => {
-        response && response.results === 'success' ? setStatus(complexSituation.sent) : setStatus(complexSituation.error);
+        response && response.results === 'success'
+            ? setStatus(complexSituation.sent)
+            : setStatus(complexSituation.error);
     };
 
     const emptyInputs = (): void => {
@@ -116,12 +118,7 @@ const EditProduct = (): ReactElement => {
                         label='Selecionar produto'
                     />
 
-                    <NameInput
-                        id='newName'
-                        label='Novo nome'
-                        action={checkSubmitReadiness}
-                        disabled={disableFields}
-                    />
+                    <NameInput id='newName' label='Novo nome' action={checkSubmitReadiness} disabled={disableFields} />
 
                     <div className='priceQuantityCouple'>
                         <PriceInput
@@ -159,10 +156,9 @@ const EditProduct = (): ReactElement => {
                 <p> {status === complexSituation.error ? 'Houve um erro e as alterações não foram salvas.' : <></>} </p>
 
                 <GoBack />
-            </div >
+            </div>
         );
-    }
-    else {
+    } else {
         return (
             <div>
                 <h1> Editar cadastro de produto </h1>
@@ -172,4 +168,4 @@ const EditProduct = (): ReactElement => {
     }
 };
 
-export default EditProduct;;;
+export default EditProduct;
