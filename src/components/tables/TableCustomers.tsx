@@ -15,7 +15,7 @@ const TableCustomers = (): ReactElement => {
     const [customers, setCustomers] = useState<Array<Object>>([]);
 
     useEffect((): void => {
-        getFromDatabase('clients').then((result: Array<Object>) => setCustomers(result));
+        getFromDatabase('customers').then((result: Array<Object>) => setCustomers(result));
     }, []);
 
     const [sortModel, setSortModel] = useState<Array<GridSortItem>>([

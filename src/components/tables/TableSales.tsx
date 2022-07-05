@@ -10,7 +10,7 @@ const columns: GridColDef[] = [
         flex: 1,
     },
     {
-        field: 'client_name',
+        field: 'customer_name',
         headerName: 'Cliente',
         flex: 1,
     },
@@ -28,6 +28,12 @@ const columns: GridColDef[] = [
         field: 'date',
         headerName: 'Data',
         width: 200,
+        hide: true
+    },
+    {
+        field: 'parsedDate',
+        headerName: 'Data',
+        width: 200,
     },
 ];
 
@@ -35,7 +41,18 @@ const TableSales = (): ReactElement => {
     const [sales, setSales] = useState<Array<Object>>([]);
 
     useEffect((): void => {
-        getFromDatabase('sales').then((result: Array<Object>) => setSales(result));
+        getFromDatabase('sales').then((result: Array<any>) => {
+            for (let saleIndex = 0; saleIndex < result.length; saleIndex++) {
+                const moment = new Date(result[saleIndex].date);
+                result[saleIndex].parsedDate = moment.toLocaleDateString() + ' às ' + moment.toLocaleTimeString();
+
+                if (!result[saleIndex].customer_name)
+                    result[saleIndex].customer_name = result[saleIndex].deleted_customer_name + ' (excluído)';
+                if (!result[saleIndex].product_name)
+                    result[saleIndex].product_name = result[saleIndex].deleted_product_name + ' (excluído)';
+            }
+            setSales(result);
+        });
     }, []);
 
     const [sortModel, setSortModel] = useState<Array<GridSortItem>>([

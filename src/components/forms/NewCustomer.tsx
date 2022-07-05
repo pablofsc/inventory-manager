@@ -8,7 +8,7 @@ import GoBack from '../navigation/GoBack';
 import NameInput from '../inputs/NameInput';
 import ButtonInput from '../inputs/ButtonInput';
 
-const NewClient = (): ReactElement => {
+const NewCustomer = (): ReactElement => {
     const [status, setStatus] = useState<simpleSituation>(simpleSituation.incomplete);
     const [name, setName] = useState<string>('');
 
@@ -23,7 +23,7 @@ const NewClient = (): ReactElement => {
     const sendform = async (): Promise<void> => {
         setStatus(simpleSituation.sending);
 
-        const serverResponse = await addToDatabase('newclient', { name: name });
+        const serverResponse = await addToDatabase('newcustomer', { id: -1, name: name });
         checkServerResponse(serverResponse);
     };
 
@@ -36,7 +36,7 @@ const NewClient = (): ReactElement => {
             <h1> Cadastrar novo cliente </h1>
 
             <div className='editScreen'>
-                <NameInput id='newClientName' label='Nome completo do cliente' action={checkSubmitReadiness} />
+                <NameInput id='newCustomerName' label='Nome completo do cliente' action={checkSubmitReadiness} />
 
                 <ButtonInput
                     action={sendform}
@@ -53,4 +53,4 @@ const NewClient = (): ReactElement => {
     );
 };
 
-export default NewClient;
+export default NewCustomer;

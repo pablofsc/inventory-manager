@@ -7,7 +7,7 @@ import TableInventory from './components/tables/TableInventory';
 import TableCustomers from './components/tables/TableCustomers';
 import TableSales from './components/tables/TableSales';
 
-import NewClient from './components/forms/NewCustomer';
+import NewCustomer from './components/forms/NewCustomer';
 import NewProduct from './components/forms/NewProduct';
 import NewSale from './components/forms/NewSale';
 import NewStock from './components/forms/NewStock';
@@ -29,7 +29,7 @@ const App = (): ReactElement => {
                         <Route path='/inventory-manager/sales' element={<TableSales />} />
                         <Route path='/inventory-manager/customers' element={<TableCustomers />} />
 
-                        <Route path='/inventory-manager/newcustomer' element={<NewClient />} />
+                        <Route path='/inventory-manager/newcustomer' element={<NewCustomer />} />
                         <Route path='/inventory-manager/newproduct' element={<NewProduct />} />
                         <Route path='/inventory-manager/newstock' element={<NewStock />} />
                         <Route path='/inventory-manager/newsale' element={<NewSale />} />

@@ -11,8 +11,8 @@ interface Properties {
 const SelectDropdownInput = (props: Properties): ReactElement => {
     return (
         <FormControl variant='filled'>
-            <InputLabel id='selectClient'> {props.label} </InputLabel>
-            <Select id='selectClient' value={props.value} onChange={props.action}>
+            <InputLabel id='selectCustomer'> {props.label} </InputLabel>
+            <Select id='selectCustomer' value={props.value} onChange={props.action}>
                 {
                     props.list.map((item: any) => (
                         <MenuItem value={item.id} key={item.id}>

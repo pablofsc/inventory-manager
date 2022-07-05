@@ -5,7 +5,7 @@ const databaseURL = 'https://pablofsc-inventory-db.herokuapp.com/';
 export const getFromDatabase = async (endpoint: string): Promise<Array<any>> => {
     return await fetch(databaseURL + endpoint, { method: 'GET' })
         .then(res => res.json())
-        .then(res => { return res; })
+        .then(res => res)
         .catch(err => { throw err; });
 };
 
@@ -16,7 +16,7 @@ export const updateDatabase = async (endpoint: string, body: Object): Promise<in
         body: JSON.stringify(body)
     })
         .then(res => res.json())
-        .then(res => { return res; })
+        .then(res => res)
         .catch(err => { throw err; });
 };
 
@@ -27,7 +27,7 @@ export const deleteFromDatabase = async (endpoint: string, body: Object): Promis
         body: JSON.stringify(body)
     })
         .then(res => res.json())
-        .then(res => { return res; })
+        .then(res => res)
         .catch(err => { throw err; });
 };
 
@@ -38,6 +38,6 @@ export const addToDatabase = async (endpoint: string, body: Object) => {
         body: JSON.stringify(body)
     })
         .then(res => res.json())
-        .then(res => { return res; })
+        .then(res => res)
         .catch(err => { throw err; });
 };

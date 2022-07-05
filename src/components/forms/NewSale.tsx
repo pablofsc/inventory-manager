@@ -24,7 +24,7 @@ const NewSale = (): ReactElement => {
     const [quantitySold, setQuantity] = useState<string>('');
 
     useEffect(() => {
-        getFromDatabase('clients').then((result: Array<customerObject>) => setCustomerList(result));
+        getFromDatabase('customers').then((result: Array<customerObject>) => setCustomerList(result));
         getFromDatabase('inventory').then((result: Array<productObject>) => setProductList(result));
     }, [status]);
 
@@ -74,11 +74,11 @@ const NewSale = (): ReactElement => {
         setStatus(simpleSituation.sending);
 
         const serverResponse = await addToDatabase('newsale', {
-            product: selectedProductID,
-            client: selectedCustomerID,
+            id: -1,
+            product_id: selectedProductID,
+            customer_id: selectedCustomerID,
             quantity: quantitySold,
-            price: pricePerUnit,
-            date: new Date().toISOString().slice(0, 10),
+            price: pricePerUnit
         });
 
         checkServerResponse(serverResponse);

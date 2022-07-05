@@ -18,7 +18,7 @@ const EditCustomer = (): ReactElement => {
     const [newName, setNewName] = useState<string>('');
 
     useEffect((): void => {
-        getFromDatabase('clients').then((result: Array<customerObject>) => setCustomerList(result));
+        getFromDatabase('customers').then((result: Array<customerObject>) => setCustomerList(result));
     }, [status]);
 
     const handleCustomerSelection = (event: SelectChangeEvent<string>): void => {
@@ -42,7 +42,7 @@ const EditCustomer = (): ReactElement => {
     const sendUpdate = async (): Promise<void> => {
         setStatus(complexSituation.sending);
 
-        const serverResponse = await updateDatabase('updateclient', {
+        const serverResponse = await updateDatabase('updatecustomer', {
             id: selectedID,
             name: newName,
         });
@@ -52,7 +52,7 @@ const EditCustomer = (): ReactElement => {
     const sendDeletion = async (): Promise<void> => {
         setStatus(complexSituation.sending);
 
-        const serverResponse = await deleteFromDatabase('deleteclient', { id: selectedID });
+        const serverResponse = await deleteFromDatabase('deletecustomer', { id: selectedID });
         checkServerResponse(serverResponse);
     };
 

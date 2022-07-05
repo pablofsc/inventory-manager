@@ -22,7 +22,7 @@ const NewProduct = (): ReactElement => {
         name && price && stock ? setStatus(simpleSituation.typed) : setStatus(simpleSituation.incomplete);
 
         setNewProduct({
-            id: undefined,
+            id: -1,
             name: name,
             default_price: price,
             quantity_in_stock: stock,
