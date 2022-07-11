@@ -14,7 +14,7 @@ import SelectDropdownInput from '../inputs/SelectDropdownInput';
 const EditCustomer = (): ReactElement => {
     const [status, setStatus] = useState<complexSituation>(complexSituation.notPicked);
     const [customerList, setCustomerList] = useState<Array<customerObject>>([]);
-    const [selectedID, setSelectedID] = useState<string>('');
+    const [selectedCustomer, setSelectedCustomer] = useState<customerObject>();
     const [newName, setNewName] = useState<string>('');
 
     useEffect((): void => {
@@ -22,13 +22,19 @@ const EditCustomer = (): ReactElement => {
     }, [status]);
 
     const handleCustomerSelection = (event: SelectChangeEvent<string>): void => {
-        setSelectedID(event.target.value);
+        const id = event.target.value;
+
+        const selected = getObjectFromArray(customerList, 'id', id);
+        const moment = new Date(selected.date);
+        selected.parsedDate = moment.toLocaleDateString() + ' às ' + moment.toLocaleTimeString();
+
+        setSelectedCustomer(selected);
         setStatus(complexSituation.picked);
     };
 
     const checkSubmitReadiness = (event: React.ChangeEvent<HTMLInputElement>): void => {
         const input = event.target.value;
-        const currentName = getObjectFromArray(customerList, 'id', selectedID).name;
+        const currentName = selectedCustomer?.name;
 
         if (!input || input === currentName) {
             setStatus(complexSituation.picked);
@@ -43,7 +49,7 @@ const EditCustomer = (): ReactElement => {
         setStatus(complexSituation.sending);
 
         const serverResponse = await updateDatabase('updatecustomer', {
-            id: selectedID,
+            id: selectedCustomer!.id,
             name: newName,
         });
         checkServerResponse(serverResponse);
@@ -52,7 +58,7 @@ const EditCustomer = (): ReactElement => {
     const sendDeletion = async (): Promise<void> => {
         setStatus(complexSituation.sending);
 
-        const serverResponse = await deleteFromDatabase('deletecustomer', { id: selectedID });
+        const serverResponse = await deleteFromDatabase('deletecustomer', { id: selectedCustomer!.id });
         checkServerResponse(serverResponse);
     };
 
@@ -64,7 +70,7 @@ const EditCustomer = (): ReactElement => {
 
     const inputPlaceholder: string =
         status >= complexSituation.picked && status != complexSituation.sent && customerList.length > 0
-            ? getObjectFromArray(customerList, 'id', selectedID).name
+            ? selectedCustomer!.name
             : '';
 
     const loading: boolean = !!(status === complexSituation.sending);
@@ -77,11 +83,13 @@ const EditCustomer = (): ReactElement => {
 
                 <div className='editScreen'>
                     <SelectDropdownInput
-                        value={selectedID}
+                        value={selectedCustomer?.id as string}
                         action={handleCustomerSelection}
                         list={customerList}
                         label='Selecionar cliente'
                     />
+
+                    <> {status >= complexSituation.picked ? `Cadastrado em ${selectedCustomer!.parsedDate!}` : <></>} </>
 
                     <NameInput
                         id='newName'

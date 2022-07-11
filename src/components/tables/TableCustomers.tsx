@@ -9,13 +9,24 @@ const columns: GridColDef[] = [
         headerName: 'Nome do cliente',
         flex: 1,
     },
+    {
+        field: 'parsedDate',
+        headerName: 'Data de cadastro',
+        width: 200,
+    },
 ];
 
 const TableCustomers = (): ReactElement => {
     const [customers, setCustomers] = useState<Array<Object>>([]);
 
     useEffect((): void => {
-        getFromDatabase('customers').then((result: Array<Object>) => setCustomers(result));
+        getFromDatabase('customers').then((result: Array<any>) => {
+            for (let saleIndex = 0; saleIndex < result.length; saleIndex++) {
+                const moment = new Date(result[saleIndex].date);
+                result[saleIndex].parsedDate = moment.toLocaleDateString() + ' às ' + moment.toLocaleTimeString();
+            }
+            setCustomers(result);
+        });
     }, []);
 
     const [sortModel, setSortModel] = useState<Array<GridSortItem>>([

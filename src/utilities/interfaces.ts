@@ -1,5 +1,7 @@
 export interface customerObject {
-    id: number | undefined;
+    id: string;
+    date: any;
+    parsedDate?: string;
     name: string;
 }
 

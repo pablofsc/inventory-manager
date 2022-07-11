@@ -63,7 +63,7 @@ const TableSales = (): ReactElement => {
     ]);
 
     return (
-        <div style={{ height: 600, width: '100%' }}>
+        <div className='tableParent'>
             <h1>Histórico de vendas</h1>
             <DataGrid
                 rows={sales}
