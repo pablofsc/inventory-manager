@@ -1,31 +1,38 @@
 import { useState, useEffect, ReactElement } from 'react';
 
-import { SelectChangeEvent } from '@mui/material';
+import { Paper, SelectChangeEvent } from '@mui/material';
 
 import { DOM, getObjectFromArray, parsePrice, simpleSituation } from '../../utilities/utils';
 import { customerObject, databaseResponse, productObject } from '../../utilities/interfaces';
 import { addToDatabase, getFromDatabase } from '../../utilities/database';
 
-import GoBack from '../navigation/GoBack';
 import ButtonInput from '../inputs/ButtonInput';
 import PriceInput from '../inputs/PriceInput';
 import QuantityInput from '../inputs/QuantityInput';
 import SelectDropdownInput from '../inputs/SelectDropdownInput';
 
-const NewSale = (): ReactElement => {
+interface Properties {
+    customer?: customerObject;
+    product?: productObject;
+}
+
+const NewSale = (props: Properties): ReactElement => {
     const [status, setStatus] = useState<simpleSituation>(simpleSituation.incomplete);
 
     const [customerList, setCustomerList] = useState<Array<customerObject>>([]);
     const [productList, setProductList] = useState<Array<productObject>>([]);
 
-    const [selectedCustomerID, setCustomerID] = useState<string>('');
-    const [selectedProductID, setProductID] = useState<string>('');
+    const [selectedCustomerID, setCustomerID] = useState<string>(props.customer?.id || '');
+    const [selectedProductID, setProductID] = useState<string>(props.product?.id || '');
     const [pricePerUnit, setPrice] = useState<string>('');
     const [quantitySold, setQuantity] = useState<string>('');
 
     useEffect(() => {
         getFromDatabase('customers').then((result: Array<customerObject>) => setCustomerList(result));
         getFromDatabase('inventory').then((result: Array<productObject>) => setProductList(result));
+
+        props.product ? DOM('price')!.value = parsePrice(props.product.default_price) : '';
+        DOM('quantity')!.value = '1';
     }, [status]);
 
     const handleCustomerSelection = (event: SelectChangeEvent): void => {
@@ -90,22 +97,34 @@ const NewSale = (): ReactElement => {
 
     return (
         <div>
-            <h1> Registrar venda </h1>
-
             <div className='editScreen'>
-                <SelectDropdownInput
-                    value={selectedCustomerID}
-                    action={handleCustomerSelection}
-                    list={customerList}
-                    label='Selecionar cliente'
-                />
+                {props.customer ?
+                    <Paper variant='outlined' style={{ paddingLeft: '20px', textAlign: 'left' }}>
+                        <p>Vendendo para {props.customer.name}</p>
+                        <p>Cliente desde {props.customer.parsedDate}</p>
+                    </Paper>
+                    :
+                    <SelectDropdownInput
+                        value={selectedCustomerID}
+                        action={handleCustomerSelection}
+                        list={customerList}
+                        label='Selecionar cliente'
+                    />
+                }
 
-                <SelectDropdownInput
-                    value={selectedProductID}
-                    action={handleProductSelection}
-                    list={productList}
-                    label='Selecionar produto'
-                />
+                {props.product ?
+                    <Paper variant='outlined' style={{ paddingLeft: '20px', textAlign: 'left' }}>
+                        <p>Vendendo {props.product.name}</p>
+                        <p>{props.product.quantity_in_stock} unidades em estoque</p>
+                    </Paper>
+                    :
+                    <SelectDropdownInput
+                        value={selectedProductID}
+                        action={handleProductSelection}
+                        list={productList}
+                        label='Selecionar produto'
+                    />
+                }
 
                 <div className='priceQuantityCouple'>
                     <PriceInput id='price' label='Preço unitário' action={handleTextInput} />
@@ -122,8 +141,6 @@ const NewSale = (): ReactElement => {
             </div>
 
             <p> {status === simpleSituation.sent ? 'Venda realizada.' : <></>} </p>
-
-            <GoBack />
         </div>
     );
 };

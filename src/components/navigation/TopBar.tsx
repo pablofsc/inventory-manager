@@ -1,17 +1,18 @@
 import { ReactElement } from 'react';
 
-import Button from '@mui/material/Button';
 import Dropdown from './Dropdown';
 import PageSelector from './PageSelector';
 
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
-import InventoryIcon from '@mui/icons-material/Inventory';
+import { AttachMoney, Inventory, PointOfSale } from '@mui/icons-material';
+
+import BasicModal from '../modals/BasicModal';
+import NewStock from '../forms/NewStock';
+import NewSale from '../forms/NewSale';
 
 const RegisterAndEdit = (): ReactElement => {
     return (
         <div>
             <Dropdown text='CADASTRAR' prepend='new' isEdit={false} />
-            <Dropdown text='EDITAR' prepend='edit' isEdit={true} />
         </div>
     );
 };
@@ -19,23 +20,23 @@ const RegisterAndEdit = (): ReactElement => {
 const NewSaleAndStock = (): ReactElement => {
     return (
         <div style={{ justifyContent: 'right' }}>
-            <Button
-                variant='contained'
+            <BasicModal
+                title='REGISTRAR ENTRADA DE ESTOQUE'
+                icon={<Inventory />}
+                label='ENTRADA'
                 color='secondary'
-                href='/inventory-manager/newstock'
-                startIcon={<InventoryIcon />}
             >
-                <div className='hideOnSmallScreens'>ENTRADA</div>
-            </Button>
+                <NewStock />
+            </BasicModal>
 
-            <Button
-                variant='contained'
+            <BasicModal
+                title='REGISTRAR VENDA'
+                icon={<AttachMoney />}
+                label='VENDA'
                 color='success'
-                href='/inventory-manager/newsale'
-                startIcon={<AttachMoneyIcon />}
             >
-                <div className='hideOnSmallScreens'>VENDA</div>
-            </Button>
+                <NewSale />
+            </BasicModal>
         </div>
     );
 };

@@ -1,7 +1,14 @@
 import { DataGrid, GridColDef, GridSortItem } from '@mui/x-data-grid';
 import { useState, useEffect, ReactElement } from 'react';
 
+import { AttachMoney, Edit, Inventory } from '@mui/icons-material';
+
 import { getFromDatabase } from '../../utilities/database';
+
+import BasicModal from '../modals/BasicModal';
+import EditProduct from '../forms/EditProduct';
+import NewSale from '../forms/NewSale';
+import NewStock from '../forms/NewStock';
 
 const columns: GridColDef[] = [
     {
@@ -12,13 +19,51 @@ const columns: GridColDef[] = [
     {
         field: 'default_price',
         headerName: 'Preço',
-        width: 150,
+        width: 100,
     },
     {
         field: 'quantity_in_stock',
         headerName: 'Estoque',
-        width: 150,
+        width: 100,
     },
+    {
+        field: 'edit',
+        headerName: 'Ações',
+        width: 200,
+        renderCell: (params) =>
+            <>
+                <BasicModal
+                    title={`REGISTRAR ENTRADA DE ESTOQUE`}
+                    icon={<Inventory />}
+                    color='info'
+                    small
+                    variant='text'
+                >
+                    <NewStock product={params.row} />
+                </BasicModal>
+
+                <BasicModal
+                    icon={<Edit />}
+                    title={`EDITANDO ${params.row.name.toUpperCase()}`}
+                    color='info'
+                    small
+                    variant='text'
+                >
+                    <EditProduct product={params.row} />
+                </BasicModal>
+
+                <BasicModal
+                    title={`REGISTRANDO VENDA DE ${params.row.name.toUpperCase()}`}
+                    icon={<AttachMoney />}
+                    color='info'
+                    small
+                    variant='text'
+                >
+                    <NewSale product={params.row} />
+                </BasicModal>
+            </>
+        ,
+    }
 ];
 
 const TableInventory = (): ReactElement => {
@@ -26,7 +71,7 @@ const TableInventory = (): ReactElement => {
 
     useEffect((): void => {
         getFromDatabase('inventory').then((result: Array<Object>) => setProducts(result));
-    }, []);
+    });
 
     const [sortModel, setSortModel] = useState<Array<GridSortItem>>([
         {

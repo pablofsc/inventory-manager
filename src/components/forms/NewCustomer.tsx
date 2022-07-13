@@ -4,7 +4,6 @@ import { simpleSituation } from '../../utilities/utils';
 import { addToDatabase } from '../../utilities/database';
 import { databaseResponse } from '../../utilities/interfaces';
 
-import GoBack from '../navigation/GoBack';
 import NameInput from '../inputs/NameInput';
 import ButtonInput from '../inputs/ButtonInput';
 
@@ -33,8 +32,6 @@ const NewCustomer = (): ReactElement => {
 
     return (
         <div>
-            <h1> Cadastrar novo cliente </h1>
-
             <div className='editScreen'>
                 <NameInput id='newCustomerName' label='Nome completo do cliente' action={checkSubmitReadiness} />
 
@@ -47,8 +44,6 @@ const NewCustomer = (): ReactElement => {
             </div>
 
             <p> {status === simpleSituation.sent ? 'Salvo com sucesso.' : <></>} </p>
-
-            <GoBack />
         </div>
     );
 };

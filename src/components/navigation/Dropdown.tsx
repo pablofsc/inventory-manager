@@ -2,15 +2,12 @@ import { useState, ReactElement, MouseEvent } from 'react';
 import { styled, alpha } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import Menu, { MenuProps } from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
 
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
-import PersonAddIcon from '@mui/icons-material/PersonAdd';
-import AddIcon from '@mui/icons-material/Add';
-import EditIcon from '@mui/icons-material/Edit';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import PersonIcon from '@mui/icons-material/Person';
+import { KeyboardArrowDown, AddShoppingCart, PersonAdd, Add, Edit } from '@mui/icons-material';
+
+import BasicModal from '../modals/BasicModal';
+import NewCustomer from '../forms/NewCustomer';
+import NewProduct from '../forms/NewProduct';
 
 const StyledMenu = styled((props: MenuProps) => (
     <Menu
@@ -65,22 +62,30 @@ export default function Dropdown(props: Properties): ReactElement {
             <Button
                 variant='contained'
                 onClick={handleClick}
-                endIcon={<KeyboardArrowDownIcon />}
-                startIcon={props.isEdit ? <EditIcon /> : <AddIcon />}
+                endIcon={<KeyboardArrowDown />}
+                startIcon={props.isEdit ? <Edit /> : <Add />}
             >
                 <div className='hideOnSmallScreens'>{props.text}</div>
             </Button>
 
             <StyledMenu anchorEl={anchorEl} open={open} onClose={handleClose}>
-                <MenuItem onClick={handleClose} component='a' href={props.prepend + 'customer'}>
-                    {props.isEdit ? <PersonIcon /> : <PersonAddIcon />}
-                    Cliente
-                </MenuItem>
+                <BasicModal
+                    icon={<PersonAdd />}
+                    label='Cliente'
+                    title='CADASTRAR CLIENTE'
+                    menuItem
+                >
+                    <NewCustomer />
+                </BasicModal>
 
-                <MenuItem onClick={handleClose} component='a' href={props.prepend + 'product'}>
-                    {props.isEdit ? <ShoppingCartIcon /> : <AddShoppingCartIcon />}
-                    Produto
-                </MenuItem>
+                <BasicModal
+                    icon={<AddShoppingCart />}
+                    label='Produto'
+                    title='CADASTRAR NOVO PRODUTO'
+                    menuItem
+                >
+                    <NewProduct />
+                </BasicModal>
             </StyledMenu>
         </div>
     );

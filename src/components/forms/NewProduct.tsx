@@ -4,7 +4,6 @@ import { DOM, simpleSituation } from '../../utilities/utils';
 import { addToDatabase } from '../../utilities/database';
 import { databaseResponse, productObject } from '../../utilities/interfaces';
 
-import GoBack from '../navigation/GoBack';
 import NameInput from '../inputs/NameInput';
 import PriceInput from '../inputs/PriceInput';
 import QuantityInput from '../inputs/QuantityInput';
@@ -22,7 +21,7 @@ const NewProduct = (): ReactElement => {
         name && price && stock ? setStatus(simpleSituation.typed) : setStatus(simpleSituation.incomplete);
 
         setNewProduct({
-            id: -1,
+            id: '-1',
             name: name,
             default_price: price,
             quantity_in_stock: stock,
@@ -44,7 +43,6 @@ const NewProduct = (): ReactElement => {
 
     return (
         <div>
-            <h1>Cadastrar novo produto</h1>
             <div className='editScreen'>
                 <NameInput id='productname' label='Nome do produto' action={checkSubmitReadiness} />
 
@@ -61,8 +59,6 @@ const NewProduct = (): ReactElement => {
             </div>
 
             <p> {status === simpleSituation.sent ? 'Salvo com sucesso.' : <></>} </p>
-
-            <GoBack />
         </div>
     );
 };

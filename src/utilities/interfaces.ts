@@ -6,7 +6,7 @@ export interface customerObject {
 }
 
 export interface productObject {
-    id: number | undefined;
+    id: string;
     name: string;
     default_price: string;
     quantity_in_stock: string;

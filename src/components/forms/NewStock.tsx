@@ -1,25 +1,31 @@
 import { useState, useEffect, ReactElement } from 'react';
 
-import { SelectChangeEvent } from '@mui/material';
+import { Paper, SelectChangeEvent } from '@mui/material';
 
 import { complexSituation, getObjectFromArray } from '../../utilities/utils';
 import { getFromDatabase, updateDatabase } from '../../utilities/database';
 import { databaseResponse, productObject } from '../../utilities/interfaces';
 
-import GoBack from '../navigation/GoBack';
 import ButtonInput from '../inputs/ButtonInput';
 import QuantityInput from '../inputs/QuantityInput';
 import SelectDropdownInput from '../inputs/SelectDropdownInput';
 
-const NewStock = (): ReactElement => {
+interface Properties {
+    product?: productObject;
+}
+
+const NewStock = (props: Properties): ReactElement => {
     const [status, setStatus] = useState<complexSituation>(complexSituation.notPicked);
     const [productList, setProductList] = useState<Array<productObject>>([]);
 
-    const [selectedProductID, setSelectedProduct] = useState<string>('');
+    const [selectedProductID, setSelectedProduct] = useState<string>(props.product?.id || '');
     const [amountToAdd, setAmountToAdd] = useState<number>();
 
     useEffect((): void => {
-        getFromDatabase('inventory').then((result: Array<productObject>) => setProductList(result));
+        getFromDatabase('inventory').then((result: Array<productObject>) => {
+            setProductList(result);
+            status === complexSituation.notPicked && props.product ? setStatus(complexSituation.picked) : '';
+        });
     }, [status]);
 
     const handleProductSelection = (event: SelectChangeEvent): void => {
@@ -40,6 +46,7 @@ const NewStock = (): ReactElement => {
             id: selectedProductID,
             quantity: amountToAdd,
         });
+
         checkServerResponse(serverResponse);
     };
 
@@ -54,50 +61,50 @@ const NewStock = (): ReactElement => {
             ? 'Estoque atual: ' + getObjectFromArray(productList, 'id', selectedProductID).quantity_in_stock
             : 'Selecione um produto';
 
-    if (productList.length > 0) {
-        return (
-            <div>
-                <h1> Registrar entrada de estoque </h1>
-                <p> {productList.length} produtos cadastrados. </p>
+    return (
+        <div>
+            {props.product ? ' ' : <p> {productList.length} produtos cadastrados. </p>}
 
-                <div className='editScreen'>
-                    <SelectDropdownInput
-                        value={selectedProductID}
-                        action={handleProductSelection}
-                        list={productList}
-                        label='Selecionar produto'
-                    />
+            <div className='editScreen'>
+                {props.product
+                    ?
+                    <Paper variant='outlined' style={{ paddingLeft: '20px', textAlign: 'left' }}>
+                        <p>Nome: {props.product?.name}</p>
+                        <p>Estoque atual: {props.product.quantity_in_stock}</p>
+                    </Paper>
+                    :
+                    <>
+                        <SelectDropdownInput
+                            value={selectedProductID}
+                            action={handleProductSelection}
+                            list={productList}
+                            label='Selecionar produto'
+                        />
 
-                    {currentStock}
+                        <Paper variant='outlined' style={{ padding: '20px 0' }}>
+                            {currentStock}
+                        </Paper>
+                    </>
+                }
 
-                    <QuantityInput
-                        id='newQuantity'
-                        label='Quantidade de estoque novo'
-                        action={checkSubmitReadiness}
-                        disabled={status < complexSituation.picked}
-                    />
+                <QuantityInput
+                    id='newQuantity'
+                    label='Quantidade de estoque novo'
+                    action={checkSubmitReadiness}
+                    disabled={status < complexSituation.picked}
+                />
 
-                    <ButtonInput
-                        action={sendUpdate}
-                        loading={status === complexSituation.sending}
-                        disabled={status < complexSituation.typed}
-                        text='ADICIONAR ESTOQUE'
-                    />
-                </div>
-
-                <p> {status === complexSituation.sent ? 'Salvo com sucesso.' : <></>} </p>
-
-                <GoBack />
+                <ButtonInput
+                    action={sendUpdate}
+                    loading={status === complexSituation.sending}
+                    disabled={status < complexSituation.typed || amountToAdd! <= 0}
+                    text='ADICIONAR ESTOQUE'
+                />
             </div>
-        );
-    } else {
-        return (
-            <div>
-                <h1> Registrar entrada de estoque </h1>
-                <p> Nenhum produto cadastrado. </p>
-            </div>
-        );
-    }
+
+            <p> {status === complexSituation.sent ? 'Salvo com sucesso.' : <></>} </p>
+        </div>
+    );
 };
 
 export default NewStock;

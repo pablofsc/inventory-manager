@@ -1,48 +1,39 @@
 import { useState, useEffect, ReactElement } from 'react';
 
-import { SelectChangeEvent } from '@mui/material';
-
-import { getObjectFromArray, complexSituation } from '../../utilities/utils';
-import { deleteFromDatabase, getFromDatabase, updateDatabase } from '../../utilities/database';
+import { complexSituation } from '../../utilities/utils';
+import { deleteFromDatabase, updateDatabase } from '../../utilities/database';
 import { customerObject, databaseResponse } from '../../utilities/interfaces';
 
-import GoBack from '../navigation/GoBack';
 import NameInput from '../inputs/NameInput';
 import ButtonInput from '../inputs/ButtonInput';
-import SelectDropdownInput from '../inputs/SelectDropdownInput';
 
-const EditCustomer = (): ReactElement => {
+import { Paper } from '@mui/material';
+
+interface Properties {
+    customer: customerObject;
+}
+
+const EditCustomer = (props: Properties): ReactElement => {
     const [status, setStatus] = useState<complexSituation>(complexSituation.notPicked);
-    const [customerList, setCustomerList] = useState<Array<customerObject>>([]);
     const [selectedCustomer, setSelectedCustomer] = useState<customerObject>();
     const [newName, setNewName] = useState<string>('');
 
     useEffect((): void => {
-        getFromDatabase('customers').then((result: Array<customerObject>) => setCustomerList(result));
-    }, [status]);
-
-    const handleCustomerSelection = (event: SelectChangeEvent<string>): void => {
-        const id = event.target.value;
-
-        const selected = getObjectFromArray(customerList, 'id', id);
-        const moment = new Date(selected.date);
-        selected.parsedDate = moment.toLocaleDateString() + ' às ' + moment.toLocaleTimeString();
-
-        setSelectedCustomer(selected);
+        setSelectedCustomer(props.customer);
         setStatus(complexSituation.picked);
-    };
+    }, []);
 
     const checkSubmitReadiness = (event: React.ChangeEvent<HTMLInputElement>): void => {
         const input = event.target.value;
-        const currentName = selectedCustomer?.name;
+        const currentName = props.customer.name;
 
         if (!input || input === currentName) {
             setStatus(complexSituation.picked);
             return;
         }
 
-        setNewName(input);
         setStatus(complexSituation.typed);
+        setNewName(input);
     };
 
     const sendUpdate = async (): Promise<void> => {
@@ -52,6 +43,7 @@ const EditCustomer = (): ReactElement => {
             id: selectedCustomer!.id,
             name: newName,
         });
+
         checkServerResponse(serverResponse);
     };
 
@@ -59,6 +51,7 @@ const EditCustomer = (): ReactElement => {
         setStatus(complexSituation.sending);
 
         const serverResponse = await deleteFromDatabase('deletecustomer', { id: selectedCustomer!.id });
+
         checkServerResponse(serverResponse);
     };
 
@@ -69,67 +62,45 @@ const EditCustomer = (): ReactElement => {
     };
 
     const inputPlaceholder: string =
-        status >= complexSituation.picked && status != complexSituation.sent && customerList.length > 0
+        status >= complexSituation.picked && status != complexSituation.sent
             ? selectedCustomer!.name
             : '';
 
     const loading: boolean = !!(status === complexSituation.sending);
 
-    if (customerList.length > 0) {
-        return (
+    return (
+        <div className='editScreen'>
+            <Paper variant='outlined' style={{ paddingLeft: '20px', textAlign: 'left' }}>
+                <p>Nome: {selectedCustomer?.name}</p>
+                <p>ID: #{selectedCustomer?.id}</p>
+                <p>Data de cadastro: {selectedCustomer?.parsedDate}</p>
+            </Paper>
+
+            <NameInput
+                id='newName'
+                label='Alterar nome'
+                placeholder={inputPlaceholder}
+                action={checkSubmitReadiness}
+            />
+
             <div>
-                <h1> Editar cadastro de cliente </h1>
-                <p> {customerList.length} clientes cadastrados. </p>
+                <ButtonInput
+                    action={sendDeletion}
+                    loading={loading}
+                    disabled={status < complexSituation.picked}
+                    isDeleteVariant
+                />
 
-                <div className='editScreen'>
-                    <SelectDropdownInput
-                        value={selectedCustomer?.id as string}
-                        action={handleCustomerSelection}
-                        list={customerList}
-                        label='Selecionar cliente'
-                    />
-
-                    <> {status >= complexSituation.picked ? `Cadastrado em ${selectedCustomer!.parsedDate!}` : <></>} </>
-
-                    <NameInput
-                        id='newName'
-                        label='Novo nome'
-                        placeholder={inputPlaceholder}
-                        action={checkSubmitReadiness}
-                        disabled={status < complexSituation.picked}
-                    />
-
-                    <div>
-                        <ButtonInput
-                            action={sendDeletion}
-                            loading={loading}
-                            disabled={status < complexSituation.picked}
-                            isDeleteVariant
-                        />
-
-                        <ButtonInput
-                            action={sendUpdate}
-                            loading={loading}
-                            disabled={status != complexSituation.typed}
-                        />
-                    </div>
-                </div>
-
-                <p> {status === complexSituation.sent ? 'Salvo com sucesso.' : <></>} </p>
-                <p> {status === complexSituation.error ? 'Houve um erro e as alterações não foram salvas.' : <></>} </p>
-
-                <GoBack />
+                <ButtonInput
+                    action={sendUpdate}
+                    loading={loading}
+                    disabled={status != complexSituation.typed}
+                />
             </div>
-        );
-    } else {
-        return (
-            <div>
-                <h1> Editar cadastro de cliente </h1>
-                <p> Nenhum cliente cadastrado. </p>
-                <GoBack />
-            </div>
-        );
-    }
+
+            <p> {status === complexSituation.sent ? 'Salvo com sucesso.' : <></>} </p>
+        </div>
+    );
 };
 
 export default EditCustomer;
