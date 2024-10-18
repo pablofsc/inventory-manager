@@ -1,6 +1,6 @@
 import * as interfaces from './interfaces';
 
-const databaseURL = 'https://pablofsc-inventory-db.herokuapp.com/';
+const databaseURL = 'https://pfsc-inv-man.fly.dev/';
 
 export const getFromDatabase = async (endpoint: string): Promise<Array<any>> => {
     return await fetch(databaseURL + endpoint, { method: 'GET' })
